@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Druckenmiller Trading Plan",
+  "type": "object",
+  "required": ["direction", "is_fat_pitch", "entry_zone", "stop_loss", "take_profit_levels", "position_size_pct", "holding_window_weeks"],
+  "properties": {
+    "direction": {
+      "type": "string",
+      "enum": ["long", "short", "hold", "conditional_long", "conditional_short"]
+    },
+    "is_fat_pitch": {"type": "boolean"},
+    "fat_pitch_rationale": {"type": "string"},
+    "entry_zone": {
+      "type": "array",
+      "items": {"type": "number"},
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "stop_loss": {"type": "number"},
+    "stop_loss_logic": {
+      "type": "string",
+      "enum": ["atr-based", "structure-based", "psychological", "fundamental"]
+    },
+    "take_profit_levels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["price", "size_pct"],
+        "properties": {
+          "price": {"type": "number"},
+          "size_pct": {"type": "number"}
+        }
+      },
+      "minItems": 1
+    },
+    "position_size_pct": {"type": "number", "minimum": 0, "maximum": 100},
+    "holding_window_weeks": {
+      "type": "array",
+      "items": {"type": "integer"},
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "key_variable_to_monitor": {"type": "string"},
+    "contrarian_risks": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 2
+    },
+    "rebuttal_responses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["challenge_topic", "decision", "reason", "change_made"],
+        "properties": {
+          "challenge_topic": {"type": "string"},
+          "decision": {"type": "string", "enum": ["accept", "partial", "reject"]},
+          "reason": {"type": "string"},
+          "change_made": {"type": "string"}
+        }
+      }
+    }
+  }
+}

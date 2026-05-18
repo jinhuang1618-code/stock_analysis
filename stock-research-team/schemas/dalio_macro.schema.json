@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Dalio Macro Output",
+  "type": "object",
+  "required": ["macro_bias", "rate_environment", "key_drivers", "sector_positioning", "confidence"],
+  "properties": {
+    "macro_bias": {
+      "type": "string",
+      "enum": ["bullish", "neutral-bullish", "neutral", "neutral-bearish", "bearish"]
+    },
+    "rate_environment": {
+      "type": "string",
+      "enum": ["cutting", "pausing-dovish", "pausing", "pausing-hawkish", "hiking"]
+    },
+    "liquidity_regime": {
+      "type": "string",
+      "enum": ["expanding", "stable", "contracting"]
+    },
+    "debt_cycle_phase": {
+      "type": "string",
+      "enum": ["early", "mid", "late", "deleveraging"]
+    },
+    "key_drivers": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 3,
+      "maxItems": 5
+    },
+    "sector_positioning": {
+      "type": "object",
+      "patternProperties": {
+        "^(tech|energy|financials|healthcare|consumer|industrials|materials|utilities|real_estate|communications)$": {
+          "type": "integer",
+          "minimum": -2,
+          "maximum": 2
+        }
+      }
+    },
+    "key_risks": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "confidence": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10
+    },
+    "reasoning_short": {
+      "type": "string",
+      "maxLength": 500
+    }
+  }
+}

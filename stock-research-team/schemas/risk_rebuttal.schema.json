@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Risk Manager Rebuttal Pass Output",
+  "type": "object",
+  "required": ["mode", "ticker", "challenges"],
+  "properties": {
+    "mode": {"type": "string", "enum": ["rebuttal_pass"]},
+    "ticker": {"type": "string"},
+    "challenges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["topic", "challenge", "suggested_change"],
+        "properties": {
+          "topic": {
+            "type": "string",
+            "enum": ["position_size", "stop_loss", "take_profit", "catalyst_blindness", "other"]
+          },
+          "challenge": {"type": "string"},
+          "suggested_change": {"type": "string"}
+        }
+      },
+      "minItems": 3
+    }
+  }
+}

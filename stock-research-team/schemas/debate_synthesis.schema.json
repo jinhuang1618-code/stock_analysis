@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Debate Synthesis Output",
+  "type": "object",
+  "required": ["ticker", "core_disagreements", "agreed_facts", "bull_strongest_argument", "bear_strongest_argument", "verdict_quality"],
+  "properties": {
+    "ticker": {"type": "string"},
+    "core_disagreements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["topic", "bull_position", "bear_position", "decisive_data_needed", "resolvability"],
+        "properties": {
+          "topic": {"type": "string"},
+          "bull_position": {"type": "string"},
+          "bear_position": {"type": "string"},
+          "decisive_data_needed": {"type": "string"},
+          "resolvability": {
+            "type": "string",
+            "enum": ["resolvable_with_more_data", "philosophical_difference", "binary_event_dependent"]
+          }
+        }
+      },
+      "minItems": 1,
+      "maxItems": 4
+    },
+    "agreed_facts": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "bull_strongest_argument": {"type": "string"},
+    "bear_strongest_argument": {"type": "string"},
+    "verdict_quality": {
+      "type": "string",
+      "enum": ["high_confidence", "medium", "low_confidence_due_to_irresolvable_debate"]
+    },
+    "recommendation_to_trader": {"type": "string"}
+  }
+}

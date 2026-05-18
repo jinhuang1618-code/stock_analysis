@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Munger Final Review Output",
+  "type": "object",
+  "required": ["ticker", "overall_score", "recommendation", "dimension_scores", "dispatch_decision"],
+  "properties": {
+    "ticker": {"type": "string"},
+    "overall_score": {"type": "integer", "minimum": 1, "maximum": 100},
+    "recommendation": {
+      "type": "string",
+      "enum": ["strong_buy", "buy", "hold", "reduce", "sell"]
+    },
+    "dimension_scores": {
+      "type": "object",
+      "properties": {
+        "three_baskets": {"type": "integer", "minimum": 1, "maximum": 10},
+        "inversion_risk": {"type": "integer", "minimum": 1, "maximum": 10},
+        "lollapalooza_check": {"type": "integer", "minimum": 1, "maximum": 10},
+        "incentive_alignment": {"type": "integer", "minimum": 1, "maximum": 10},
+        "circle_of_competence": {"type": "integer", "minimum": 1, "maximum": 10},
+        "stupidity_checklist": {"type": "integer", "minimum": 1, "maximum": 10},
+        "l2_honesty_check": {"type": "integer", "minimum": 1, "maximum": 10},
+        "macro_challenge_review": {"type": "integer", "minimum": 1, "maximum": 10}
+      }
+    },
+    "skipped_dimensions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["dimension", "reason"],
+        "properties": {
+          "dimension": {"type": "string"},
+          "reason": {"type": "string"}
+        }
+      }
+    },
+    "dispatch_decision": {
+      "type": "string",
+      "enum": ["approved", "approved_with_reservations", "rejected"]
+    },
+    "reservations": {"type": "string"},
+    "key_warnings": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "reasoning_short": {"type": "string", "maxLength": 500}
+  }
+}

@@ -1,0 +1,151 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Diff Report Output",
+  "type": "object",
+  "required": ["ticker", "from_date", "to_date", "elapsed_days", "depth", "price_action", "verdict_change", "trigger_indicators"],
+  "properties": {
+    "ticker": {"type": "string"},
+    "from_date": {"type": "string", "format": "date"},
+    "to_date": {"type": "string", "format": "date"},
+    "elapsed_days": {"type": "integer"},
+    "depth": {"type": "string", "enum": ["light", "deep"]},
+    "price_action": {
+      "type": "object",
+      "required": ["price_then", "price_now", "pct_change"],
+      "properties": {
+        "price_then": {"type": "number"},
+        "price_now": {"type": "number"},
+        "high_in_period": {"type": "number"},
+        "low_in_period": {"type": "number"},
+        "pct_change": {"type": "number"},
+        "max_drawdown_pct": {"type": "number"},
+        "atr_then": {"type": "number"},
+        "atr_now": {"type": "number"},
+        "sparkline": {"type": "string"},
+        "longbridge_chart_url": {"type": "string"}
+      }
+    },
+    "verdict_change": {
+      "type": "object",
+      "properties": {
+        "direction": {
+          "type": "object",
+          "properties": {
+            "from": {"type": "string"},
+            "to": {"type": "string"}
+          }
+        },
+        "confidence": {
+          "type": "object",
+          "properties": {
+            "from": {"type": "integer"},
+            "to": {"type": "integer"}
+          }
+        },
+        "is_fat_pitch": {
+          "type": "object",
+          "properties": {
+            "from": {"type": "boolean"},
+            "to": {"type": "boolean"}
+          }
+        },
+        "munger_total_score": {
+          "type": "object",
+          "properties": {
+            "from": {"type": "integer"},
+            "to": {"type": "integer"}
+          }
+        }
+      }
+    },
+    "trigger_indicators": {
+      "type": "object",
+      "properties": {
+        "direction_changed": {"type": "boolean"},
+        "munger_score_delta": {"type": "integer"},
+        "confidence_delta": {"type": "integer"},
+        "is_fat_pitch_flipped": {"type": "boolean"},
+        "price_change_pct_abs": {"type": "number"},
+        "core_disagreements_delta": {"type": "integer"},
+        "should_deep_dive": {"type": "boolean"}
+      }
+    },
+    "dimension_diffs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["dimension", "old_verdict", "new_verdict", "key_changes"],
+        "properties": {
+          "dimension": {"type": "string"},
+          "old_verdict": {"type": "string"},
+          "old_conviction": {"type": "integer"},
+          "new_verdict": {"type": "string"},
+          "new_conviction": {"type": "integer"},
+          "key_changes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "topic": {"type": "string"},
+                "old_view": {"type": "string"},
+                "new_view": {"type": "string"},
+                "trigger_event": {"type": "string"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "previous_exit_triggers_status": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["trigger", "status"],
+        "properties": {
+          "trigger": {"type": "string"},
+          "status": {
+            "type": "string",
+            "enum": ["triggered", "not_triggered_but_monitoring", "passed_without_trigger", "future_event_still_pending", "obsolete"]
+          },
+          "evidence": {"type": "string"}
+        }
+      }
+    },
+    "plan_changes": {
+      "type": "object",
+      "properties": {
+        "entry_zone": {
+          "type": "object",
+          "properties": {
+            "from": {"type": "array", "items": {"type": "number"}},
+            "to": {"type": "array", "items": {"type": "number"}}
+          }
+        },
+        "stop_loss": {
+          "type": "object",
+          "properties": {
+            "from": {"type": "number"},
+            "to": {"type": "number"}
+          }
+        },
+        "tp_levels": {
+          "type": "object",
+          "properties": {
+            "from": {"type": "array", "items": {"type": "number"}},
+            "to": {"type": "array", "items": {"type": "number"}}
+          }
+        },
+        "position_pct": {
+          "type": "object",
+          "properties": {
+            "from": {"type": "number"},
+            "to": {"type": "number"}
+          }
+        }
+      }
+    },
+    "summary_narrative": {"type": "string", "maxLength": 150},
+    "recommendation_if_held": {"type": "string"},
+    "recommendation_if_not_held": {"type": "string"}
+  }
+}

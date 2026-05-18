@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Bull/Bear Debate Round Output",
+  "type": "object",
+  "required": ["side", "round", "main_argument", "supporting_data", "attacks_on_opponent"],
+  "properties": {
+    "side": {"type": "string", "enum": ["bull", "bear"]},
+    "round": {"type": "integer", "minimum": 1, "maximum": 3},
+    "main_argument": {"type": "string", "maxLength": 300},
+    "supporting_data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["data_point", "source_agent"],
+        "properties": {
+          "data_point": {"type": "string"},
+          "source_agent": {
+            "type": "string",
+            "enum": ["fundamental", "technical", "industry", "sentiment", "dalio_macro", "external"]
+          }
+        }
+      },
+      "minItems": 2
+    },
+    "attacks_on_opponent": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["target_argument", "counter_evidence"],
+        "properties": {
+          "target_argument": {"type": "string"},
+          "counter_evidence": {"type": "string"}
+        }
+      }
+    },
+    "concessions": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  }
+}

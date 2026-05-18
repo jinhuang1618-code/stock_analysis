@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Risk Manager First Pass Output",
+  "type": "object",
+  "required": ["mode", "ticker", "max_position_pct", "risk_factors", "stop_loss_logic", "reasoning"],
+  "properties": {
+    "mode": {"type": "string", "enum": ["first_pass"]},
+    "ticker": {"type": "string"},
+    "max_position_pct": {"type": "number", "minimum": 0, "maximum": 100},
+    "risk_factors": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 3
+    },
+    "correlation_concerns": {"type": "string"},
+    "stop_loss_logic": {
+      "type": "string",
+      "enum": ["atr-based", "structure-based", "psychological", "fundamental"]
+    },
+    "stop_loss_rationale": {"type": "string"},
+    "must_consider_events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["event", "date", "impact"],
+        "properties": {
+          "event": {"type": "string"},
+          "date": {"type": "string"},
+          "impact": {"type": "string"}
+        }
+      }
+    },
+    "reasoning": {"type": "string"}
+  }
+}

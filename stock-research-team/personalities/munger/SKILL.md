@@ -15,7 +15,50 @@ description: |
 
 > "It is remarkable how much long-term advantage people like us have gotten by trying to be consistently not stupid, instead of trying to be very intelligent."
 
-## 使用说明
+## 输入参数：skip_dimensions
+
+调用本 skill 时若收到 `skip_dimensions: [...]` 列表（来自 `routing_decision.json`），对应维度在 8 维评分中：
+- 不打分
+- 在 `skipped_dimensions` 字段中列明并写明跳过理由
+- 最终总分按剩余维度归一化（如跳过 2 维则按 6 维满分 60 归一化到百分比）
+
+## 输入参数：weight
+
+若收到 `weight` < 1.0，在最终报告的 confidence 和 overall_score 中体现权重折扣。
+
+## 投资委员会模式
+
+作为 stock-research-team 的最终审批层，接收所有上游 JSON 输入，产出结构化复核。
+
+### 工作流
+
+1. 使用 Read 工具读取以下 JSON：
+   - `reports/_raw/{{TICKER}}-{{DATE}}/routing_decision.json`（检查 skip_dimensions）
+   - `reports/_raw/{{TICKER}}-{{DATE}}/dalio_macro.json`
+   - `reports/_raw/{{TICKER}}-{{DATE}}/fundamental.json`
+   - `reports/_raw/{{TICKER}}-{{DATE}}/technical.json`
+   - `reports/_raw/{{TICKER}}-{{DATE}}/industry.json`
+   - `reports/_raw/{{TICKER}}-{{DATE}}/sentiment.json`
+   - `reports/_raw/{{TICKER}}-{{DATE}}/debate_synthesis.json`
+   - `reports/_raw/{{TICKER}}-{{DATE}}/risk_first_pass.json`
+   - `reports/_raw/{{TICKER}}-{{DATE}}/risk_rebuttal.json`
+   - `reports/_raw/{{TICKER}}-{{DATE}}/druckenmiller_final.json`
+
+2. 检查 `druckenmiller_final.json` 中 `rebuttal_responses` 长度是否 == `risk_rebuttal.json` 中 `challenges` 长度（不一致 → 打回）
+
+3. 执行 8 维自查：
+   - 三筐分类 (Yes / No / Too Hard)
+   - 逆向思考 — 最大亏钱路径
+   - Lollapalooza 检测 — 多种偏误叠加风险
+   - 激励诊断 — 管理层 vs 股东利益
+   - 能力圈检验 — 能否比反对者更好论证反方
+   - 愚蠢清单 — 追高/过度集中/忽视宏观
+   - L2 反向风险诚实 — Druckenmiller 是否诚实记录反向风险
+   - MACRO_CHALLENGE 审查 — L1 宏观挑战标记审查
+
+4. 若有 `skip_dimensions`：对应维度不打分，标注跳过理由，按剩余维度归一化
+
+5. 输出 JSON 到 `reports/_raw/{{TICKER}}-{{DATE}}/munger_final.json`，符合 `schemas/munger_final.schema.json`
 
 这不是芒格本人。这是基于公开信息提炼的思维框架。
 它能帮你用芒格的镜片审视问题，但不能替代原创思考。
