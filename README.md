@@ -4,25 +4,38 @@
 
 ## 架构
 
-```
-L0  │ Ray Dalio              │ 先行定调：周期定位 · 利率汇率 · 宏观定调
-    │                        │
-L1  │ 研究部 4 人并行         │ 基本面 · 技术面 · 行业定性画像 · 新闻情绪
-    │                        │
-    │ ┌──────────────────────┼──────────────────────┐
-    │ │ 多头司令 ← 固定3轮 → 空头司令                  │
-L2  │ │ R1 立场陈述 → R2 交叉攻击 → R3 核心分歧       │
-    │ │ Debate Synthesizer — 分歧矩阵                │
-    │ │ Druckenmiller 双稿 — 交易方案                 │
-    │ └──────────────────────────────────────────────┘
-    │                        │
-    │ ┌──────────────────────┼──────────────────────┐
-L3  │ │ Risk Manager 双通                              │
-    │ │ Pass 1 风险预算 → Druckenmiller 第一稿         │
-    │ │ Pass 2 Rebuttal 挑战 → Druckenmiller Final    │
-    │ └──────────────────────────────────────────────┘
-    │                        │
-L4  │ Munger                 │ 8 维自查 · 综合评分 · 签发
+```mermaid
+flowchart TD
+    L0["<b>L0 · Ray Dalio</b><br/>周期定位 · 宏观定调"]
+    
+    L0 --> L1_F["<b>基本面</b><br/>财务 + 估值"]
+    L0 --> L1_T["<b>技术面</b><br/>K线 + 趋势"]
+    L0 --> L1_I["<b>行业</b><br/>ETF对标 + 定性"]
+    L0 --> L1_S["<b>新闻情绪</b><br/>催化剂 + 共识"]
+    
+    L1_F --> L2_D
+    L1_T --> L2_D
+    L1_I --> L2_D
+    L1_S --> L2_D
+    
+    subgraph L2_D["<b>L2 · 决策与执行</b>"]
+        direction TB
+        DEBATE["🐂 多头 ← 3轮辩论 → 空头 🐻<br/>R1 立场 → R2 攻击 → R3 分歧"]
+        SYNTH["<b>Debate Synthesizer</b><br/>分歧矩阵 · 共识点"]
+        DRUCK1["<b>Druckenmiller 第一稿</b><br/>Fat Pitch · Sizing · 止损"]
+        DRUCK2["<b>Druckenmiller 最终稿</b><br/>逐条回应 Rebuttal"]
+        DEBATE --> SYNTH --> DRUCK1 --> DRUCK2
+    end
+    
+    L2_D --> RISK1["<b>L3a · Risk Pass 1</b><br/>风险预算 · 仓位上限"]
+    RISK1 --> RISK2["<b>L3b · Risk Pass 2</b><br/>Rebuttal 逐条挑战"]
+    RISK2 --> L4
+    
+    L4["<b>L4 · Munger 签发</b><br/>8维自查 · 综合评分"]
+    
+    style L0 fill:#eaf2f7,stroke:#1a5f7f
+    style L4 fill:#e8f5e9,stroke:#1a7f4b
+    style L2_D fill:#fdf8f0,stroke:#b85c1a
 ```
 
 ## 五层委员会
